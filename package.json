@@ -1,7 +1,7 @@
 {
-  "name": "lucia-adapter-surrealdb",
-  "version": "0.9.3",
-  "description": "Unofficial Surrealdb adapter for Lucia",
+  "name": "lucia-adapter-surrealdb-wjw",
+  "version": "0.0.1",
+  "description": "Unofficial Surrealdb adapter for Lucia -modified wjw",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "module": "./dist/index.cjs",
@@ -23,15 +23,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/var-che/lucia-adapter-surrealdb"
+    "url": "https://github.com/braveheartwilliam/lucia-adapter-surrealdb-wjw"
   },
-  "author": "var-che",
+  "author": "var-che -- wjw",
   "license": "MIT",
   "exports": {
-    ".": "./index.js"
+    ".": "./dist/index.js"
   },
   "dependencies": {
-    "lucia": "3.x",
+    "lucia": "^3.x",
     "surrealdb.js": "^0.11.0"
   },
   "devDependencies": {
