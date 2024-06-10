@@ -90,30 +90,50 @@ export class SurrealDBAdapter implements Adapter {
 
   public async setSession(databaseSession: DatabaseSession): Promise<void> {
     const value = {
-      id: databaseSession.id,
+      session_id: databaseSession.id,
       user_id: databaseSession.userId,
-      // expires_at: databaseSession.expiresAt,
-      ...databaseSession.attributes,
-    };
+      expiresAt: databaseSession.expiresAt.toISOString(),
+      ...databaseSession.attributes
+	};
+	  let session_id = value.session_id;
+	  let user_id = value.user_id;
+	  let expiresAt = value.expiresAt;
+	  const insertParams = { session_id, user_id, expiresAt};
 
-    var entries = Object.entries(value).filter(([_, v]) => v !== undefined);
+
+
+	  //   const insertParams = { id:value.id, user:value.user_id, expire:value.expires_at };
+
+
+	  console.log('-------------------');
+
+	  console.log( '$$$$$value: ', value );
+
+	  console.log( '-------------------' );
+
+    var entries = Object.entries(value).filter(([_, v]) => v !== void 0);
     var columns = entries.map(([k]) => k);
-    var values = entries.map(([_, v]) => escapeName(v));
-    function escapeName(val: string): string {
-      return "'" + val + "'";
+	  var values = entries.map( ( [_, v] ) => escapeName( v ) );
+	  	console.log( 'Inserted session' , values[0], values[1], values[2] );
+
+
+	  console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     values: ', values, 'columns: ', columns, 'insertParams: ', insertParams);
+
+    function escapeName(val) {
+		return '"' + val + '"';
     }
 
-    await this.connector.query(
-      `INSERT INTO ${this.table_names.session} (${columns.join(
-        ", "
-      )}) VALUES (${values.join(", ")});`
-    );
+try
+	  {
+	//   await this.connector.query( `INSERT INTO ${ this.table_names.session } (id, user_id, expiresAt) VALUES(values[0], values[1], values[2]);`);?,?,?
+	await this.connector.query( `INSERT INTO session (session_id, user_id, expiresAt) VALUES ($session_id, $user_id, $expiresAt)` , insertParams);
 
-    await this.connector.query(
-      `UPDATE ${this.table_names.session}:${
-        value.id
-      } SET expires_at = type::datetime("${databaseSession.expiresAt.toISOString()}")`
-    );
+
+	  } catch ( e )
+	  {
+		  console.log( 'Failed to insert session', e );
+	  }
+
   }
 
   public async getUserSessions(userId: string): Promise<DatabaseSession[]> {
