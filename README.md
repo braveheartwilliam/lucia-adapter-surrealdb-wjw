@@ -11,9 +11,9 @@ Works with Lucia 3, and surreal.js 0.11.0.
 ## Installation
 
 ```
-npm install lucia-adapter-surrealdb
-pnpm add lucia-adapter-surrealdb
-yarn add lucia-adapter-surrealdb
+npm install lucia-adapter-surrealdb-wjw
+pnpm add lucia-adapter-surrealdb-wjw
+yarn add lucia-adapter-surrealdb-wjw
 ```
 
 ## Testing
